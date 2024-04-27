@@ -11,7 +11,7 @@
     loadedCity.value = data;
     console.log(loadedCity.value);
 
-    loadWeather()
+    loadWeather();
   }
 
   const loadWeather = async () => {
