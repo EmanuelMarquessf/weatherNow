@@ -6,6 +6,7 @@ export async function fetchData(tipedCity, state){
   return data;
 }
 
+
 export async function fetchWeather(lat, lon){
   const data = 
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=03a697de3ffb3a5a79da8c382631b852`)
