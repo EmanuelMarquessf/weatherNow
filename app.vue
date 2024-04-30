@@ -1,5 +1,5 @@
 <script setup>
-  import  { fetchData, fetchWeather } from "./services/openWeatherAPI"
+  import  { fetchData, fetchWeather } from "./src/services/openWeatherAPI"
 
   const tipedCity = ref();
   const tipedState = ref();
