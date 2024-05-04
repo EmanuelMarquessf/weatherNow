@@ -23,6 +23,7 @@
   const temperatureConvert = (temp) => {
     return (temp - 273.15)
   }
+
 </script>
 
 <template>
@@ -37,3 +38,6 @@
   </div>
 </template>
 
+<style lang="scss">
+
+</style>
