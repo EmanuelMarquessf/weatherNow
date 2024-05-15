@@ -1,109 +1,116 @@
 <script setup>
-  import { compileScript } from "vue/compiler-sfc";
-import  { fetchData, fetchWeather } from "./src/services/openWeatherAPI"
+import { compileScript } from "vue/compiler-sfc";
+import { fetchData, fetchWeather } from "./src/services/openWeatherAPI";
 
-  const tipedCity = ref();
-  const tipedState = ref();
-  const loadedCity = ref(0);
-  const loadadedWeather = ref();
+const tipedCity = ref("campos do jordao");
+const tipedCountry = ref("BRA");
+const loadedCity = ref(0);
+const loadadedWeather = ref();
 
-  const loadCountry = async () => {
-    const data = await fetchData(tipedCity.value, tipedState.value);
-    loadedCity.value = data;
-    console.log(loadedCity.value);
-    if (loadedCity.value.length > 0)
-      loadWeather();
-    else{
-      loadedCity.value = 'inv'
-    }
+const loadCountry = async () => {
+  const data = await fetchData(tipedCity.value, tipedCountry.value);
+  loadedCity.value = data;
+  console.log(loadedCity.value);
+  if (loadedCity.value.length > 0) loadWeather();
+  else {
+    loadedCity.value = "inv";
   }
+};
 
-  const loadWeather = async () => {
-    const data = await fetchWeather(loadedCity.value[0].lat, loadedCity.value[0].lon)
-    loadadedWeather.value = data;
-    console.log(Math.ceil(temperatureConvert(loadadedWeather.value.main.temp)))
-  }
+const loadWeather = async () => {
+  const data = await fetchWeather(
+    loadedCity.value[0].lat,
+    loadedCity.value[0].lon
+  );
+  loadadedWeather.value = data;
+  console.log(Math.ceil(temperatureConvert(loadadedWeather.value.main.temp)));
+  console.log(loadedCity.value[0].name);
+};
 
-  const temperatureConvert = (temp) => {
-    return (temp - 273.15)
-  }
-
+const temperatureConvert = (temp) => {
+  return temp - 273.15;
+};
 </script>
 
 <template>
   <main>
     <form @submit.prevent="loadCountry()" class="formContainer flexRow">
-      <div id="cityInput"class="inputContainer flexCol">
+      <div id="cityInput" class="inputContainer flexCol">
         <label for="">City name</label>
-        <input v-model="tipedCity" type="text" required>
+        <input v-model="tipedCity" type="text" required />
       </div>
-      <div id="stateInput" class="inputContainer flexCol">
-        <label for="stateSelect">State</label>
-        <select v-model="tipedState" id="stateSelect" required>
+      <div id="CountryInput" class="inputContainer flexCol">
+        <label for="CountrySelect">Country</label>
+        <select v-model="tipedCountry" id="CountrySelect" required>
           <option value=""></option>
-          <option value="AC">AC</option>
-          <option value="AL">AL</option>
-          <option value="AP">AP</option>
-          <option value="AM">AM</option>
-          <option value="BA">BA</option>
-          <option value="CE">CE</option>
-          <option value="DF">DF</option>
-          <option value="ES">ES</option>
-          <option value="GO">GO</option>
-          <option value="MA">MA</option>
-          <option value="MT">MT</option>
-          <option value="MS">MS</option>
-          <option value="MG">MG</option>
-          <option value="PA">PA</option>
-          <option value="PB">PB</option>
-          <option value="PR">PR</option>
-          <option value="PE">PE</option>
-          <option value="PI">PI</option>
-          <option value="RJ">RJ</option>
-          <option value="RN">RN</option>
-          <option value="RS">RS</option>
-          <option value="RO">RO</option>
-          <option value="RR">RR</option>
-          <option value="SC">SC</option>
-          <option value="SP">SP</option>
-          <option value="SE">SE</option>
-          <option value="TO">TO</option>
+          <option value="RUS">Russia</option>
+          <option value="CAN">Canada</option>
+          <option value="CHN">China</option>
+          <option value="USA">United States</option>
+          <option value="BRA" selected>Brazil</option>
+          <option value="AUS">Australia</option>
+          <option value="IND">India</option>
+          <option value="ARG">Argentina</option>
+          <option value="KAZ">Kazakhstan</option>
+          <option value="ALG">Algeria</option>
+          <option value="SUD">Sudan</option>
+          <option value="GRL">Greenland</option>
+          <option value="YEM">Yemen</option>
+          <option value="MEX">Mexico</option>
+          <option value="IRN">Iran</option>
+          <option value="PER">Peru</option>
+          <option value="CHL">Chile</option>
+          <option value="IDN">Indonesia</option>
+          <option value="MNG">Mongolia</option>
         </select>
       </div>
-      <button type="submit" @click=""><img src="/icons/search.svg" alt=""></button>
+      <button type="submit" @click="">
+        <img src="/icons/search.svg" alt="" />
+      </button>
     </form>
     <div class="resultContainer flexRow" v-if="loadadedWeather">
-      <div class="flexCol">
-        <div class="resultItem">
-          <strong>Temperatura:</strong> {{ Math.ceil(temperatureConvert(loadadedWeather.main.temp)) }}°C
-        </div>
-        <div class="resultItem">
-          <strong>Mínima:</strong> {{ Math.ceil(temperatureConvert(loadadedWeather.main.temp_min)) }}°C
-        </div>
-        <div class="resultItem">
-          <strong>Máxima:</strong> {{ Math.ceil(temperatureConvert(loadadedWeather.main.temp_max)) }}°C
-        </div>
-        <div class="resultItem">
-          <strong>Sensação Térmica:</strong> {{ Math.ceil(temperatureConvert(loadadedWeather.main.feels_like)) }}°C
-        </div>
-        <div class="resultItem">
+      <div class="topContainer resultItem">
+        <span class="cityName">
+          {{ loadedCity[0].name }} - {{ loadedCity[0].state }}
+        </span>
+        <div>
+          <span class="temp">
+            {{ Math.ceil(temperatureConvert(loadadedWeather.main.temp)) }}°
+          </span>
+          <img
+            :src="`./weatherIcons/${loadadedWeather.weather[0].icon}.png`"
+            alt="Weather Icon"
+          />
         </div>
       </div>
-      <div class="conditionContainer flexCol">
+      <div class="resultInfo">
+        <div class="resultItem">
+          <strong>Mínima:</strong>
+          {{ Math.ceil(temperatureConvert(loadadedWeather.main.temp_min)) }}°C
+        </div>
+        <div class="resultItem">
+          <strong>Máxima:</strong>
+          {{ Math.ceil(temperatureConvert(loadadedWeather.main.temp_max)) }}°C
+        </div>
+        <div class="resultItem">
+          <strong>Sensação Térmica:</strong>
+          {{ Math.ceil(temperatureConvert(loadadedWeather.main.feels_like)) }}°C
+        </div>
+      </div>
+      <!-- <div class="conditionContainer flexCol">
         <strong>{{ loadadedWeather.weather[0].main }}</strong>
-        <img :src="'https://openweathermap.org/img/wn/' + loadadedWeather.weather[0].icon + '@2x.png'" alt="Weather Image">
-      </div>
+        <img :src="`./weatherIcons/${loadadedWeather.weather[0].icon}.png`" alt="Weather Icon">
+      </div> -->
     </div>
     <span v-else-if="loadedCity == 'inv'">Invalid Location</span>
     <span v-else>Choose you location!</span>
-    
   </main>
 </template>
 
 <style scoped lang="scss">
-@import './src/styles/_colors';
+@import "./src/styles/_colors";
 
-main{
+main {
   display: flex;
   flex-direction: column;
   padding: 2rem;
@@ -112,63 +119,89 @@ main{
   font-family: sans-serif;
   border-radius: 15px;
   gap: 4rem;
-  span{
+  span {
     font-size: larger;
-    text-align: center
+    text-align: center;
   }
-  .formContainer{
+  .formContainer {
     gap: 1rem;
     justify-content: space-between;
     align-items: end;
-    .inputContainer{
-      gap:0.5rem;
-      label{
+    .inputContainer {
+      gap: 0.5rem;
+      label {
         font-size: medium;
       }
-      input, select{
+      input,
+      select {
         padding: 0.5rem;
         font-size: x-large;
         color: #2a2a2a;
       }
     }
-    #cityInput{
-      width: 80%;
+    #cityInput {
+      width: 250px;
     }
-    #stateInput{
-      width: 20%;
+    #CountryInput {
+      width: 100px;
     }
-    button{
+    button {
       padding: 0rem 0.5rem;
       height: 50px;
       font-size: medium;
     }
   }
   .resultContainer {
+    display: flex;
+    flex-direction: column;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
     margin-top: 10px;
-    justify-content:space-between;
+    gap: 2rem;
+    .topContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      text-align: center;
+      flex-grow: 1;
+      
+    }
   }
-  
+  .resultInfo {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 0.4rem;
+    justify-content: center;
+  }
   .resultItem {
     margin-bottom: 10px;
+    .cityName {
+      font-size: larger;
+      font-weight: 700;
+    }
+    .temp {
+      font-size: 90px;
+    }
+    img {
+      width: 150px;
+    }
   }
 
-  .conditionContainer{
+  .conditionContainer {
     text-align: center;
     margin-bottom: 10px;
   }
 }
 
-.flexCol{
+.flexCol {
   display: flex;
   flex-direction: column;
 }
-.flexRow{
+.flexRow {
   display: flex;
   flex-direction: row;
 }
-
-
 </style>
