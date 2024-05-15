@@ -2,15 +2,14 @@
 import { compileScript } from "vue/compiler-sfc";
 import { fetchData, fetchWeather } from "./src/services/openWeatherAPI";
 
-const tipedCity = ref("campos do jordao");
-const tipedCountry = ref("BRA");
+const tipedCity = ref();
+const tipedCountry = ref("");
 const loadedCity = ref(0);
 const loadadedWeather = ref();
 
 const loadCountry = async () => {
   const data = await fetchData(tipedCity.value, tipedCountry.value);
   loadedCity.value = data;
-  console.log(loadedCity.value);
   if (loadedCity.value.length > 0) loadWeather();
   else {
     loadedCity.value = "inv";
@@ -23,8 +22,6 @@ const loadWeather = async () => {
     loadedCity.value[0].lon
   );
   loadadedWeather.value = data;
-  console.log(Math.ceil(temperatureConvert(loadadedWeather.value.main.temp)));
-  console.log(loadedCity.value[0].name);
 };
 
 const temperatureConvert = (temp) => {
@@ -47,7 +44,7 @@ const temperatureConvert = (temp) => {
           <option value="CAN">Canada</option>
           <option value="CHN">China</option>
           <option value="USA">United States</option>
-          <option value="BRA" selected>Brazil</option>
+          <option value="BRA">Brazil</option>
           <option value="AUS">Australia</option>
           <option value="IND">India</option>
           <option value="ARG">Argentina</option>
@@ -73,27 +70,27 @@ const temperatureConvert = (temp) => {
         <span class="cityName">
           {{ loadedCity[0].name }} - {{ loadedCity[0].state }}
         </span>
-        <div>
-          <span class="temp">
-            {{ Math.ceil(temperatureConvert(loadadedWeather.main.temp)) }}°
-          </span>
+        <div class="tempInfo">
           <img
             :src="`./weatherIcons/${loadadedWeather.weather[0].icon}.png`"
             alt="Weather Icon"
           />
+          <span class="temp">
+            {{ Math.ceil(temperatureConvert(loadadedWeather.main.temp)) }}°
+          </span>
         </div>
       </div>
       <div class="resultInfo">
         <div class="resultItem">
-          <strong>Mínima:</strong>
+          Mínima:
           {{ Math.ceil(temperatureConvert(loadadedWeather.main.temp_min)) }}°C
         </div>
         <div class="resultItem">
-          <strong>Máxima:</strong>
+          Máxima:
           {{ Math.ceil(temperatureConvert(loadadedWeather.main.temp_max)) }}°C
         </div>
         <div class="resultItem">
-          <strong>Sensação Térmica:</strong>
+          Sensação Térmica:
           {{ Math.ceil(temperatureConvert(loadadedWeather.main.feels_like)) }}°C
         </div>
       </div>
@@ -103,62 +100,89 @@ const temperatureConvert = (temp) => {
       </div> -->
     </div>
     <span v-else-if="loadedCity == 'inv'">Invalid Location</span>
-    <span v-else>Choose you location!</span>
   </main>
 </template>
 
 <style scoped lang="scss">
 @import "./src/styles/_colors";
 
+@mixin box-shadow($shadow) {
+  box-shadow: $shadow;
+}
+
+// Estilos base
 main {
   display: flex;
   flex-direction: column;
   padding: 2rem;
   margin: 4rem;
   background-color: $windowColor;
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
   border-radius: 15px;
-  gap: 4rem;
+  gap: 1rem;
+
   span {
     font-size: larger;
     text-align: center;
   }
+
   .formContainer {
-    gap: 1rem;
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: end;
+    gap: 1rem;
+
     .inputContainer {
+      display: flex;
+      flex-direction: column;
       gap: 0.5rem;
+      
       label {
         font-size: medium;
+        font-weight: 700;
       }
       input,
       select {
         padding: 0.5rem;
-        font-size: x-large;
-        color: #2a2a2a;
+        font-size: larger;
+        color: $textBlack;
+        border: 1px solid $detailColor3;
+        border-radius: 5px;
+        background-color: $backgroundColor;
       }
     }
+    
     #cityInput {
       width: 250px;
+
     }
+
     #CountryInput {
-      width: 100px;
+      width: 150px;
     }
+
     button {
+      border-radius: 5px;
       padding: 0rem 0.5rem;
-      height: 50px;
+      height: 40px;
       font-size: medium;
+      border: 1px solid $detailColor3;
+      background-color: $backgroundColor;
+      cursor: pointer;
     }
   }
+
   .resultContainer {
+    background-color: $backgroundColor;
     display: flex;
     flex-direction: column;
-    border: 1px solid #ccc;
+    border: 1px solid $detailColor3;
     border-radius: 5px;
     padding: 10px;
     margin-top: 10px;
     gap: 2rem;
+    height: 250px;
     .topContainer {
       display: flex;
       flex-direction: column;
@@ -166,27 +190,45 @@ main {
       justify-content: center;
       text-align: center;
       flex-grow: 1;
-      
+
+      .cityName {
+        font-size:larger;
+        font-weight: 600;
+      }
+
+      .tempInfo {
+        display: flex;
+        align-content: center;
+        gap: 2rem;
+        justify-content: center;
+
+        .temp {
+          font-size: 100px;
+          font-weight: 100;
+          font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+      }
+
+      img {
+        width: 150px;
+        height: 100px;
+      }
     }
-  }
-  .resultInfo {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    gap: 0.4rem;
-    justify-content: center;
-  }
-  .resultItem {
-    margin-bottom: 10px;
-    .cityName {
-      font-size: larger;
-      font-weight: 700;
+
+    .resultInfo {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 400;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: $textGrey;
+      padding: 0px 0.5rem;
     }
-    .temp {
-      font-size: 90px;
-    }
-    img {
-      width: 150px;
+
+    .resultItem {
+      margin-bottom: 10px;
     }
   }
 
@@ -200,6 +242,7 @@ main {
   display: flex;
   flex-direction: column;
 }
+
 .flexRow {
   display: flex;
   flex-direction: row;
