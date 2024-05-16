@@ -16,27 +16,30 @@
         - {{ props.loadedCity[0].state }}</span>
       </span>
       <div class="tempInfo">
-        <img
-          :src="`./weatherIcons/${props.loadedWeather.weather[0].icon}.png`"
-          alt="Weather Icon"
-        />
-        <span class="temp">
-          {{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp)) }}°
-        </span>
+        <div class="flexCol">
+          <img
+            :src="`https://openweathermap.org/img/wn/${props.loadedWeather.weather[0].icon}@2x.png`"
+            alt="Weather Icon"
+          />
+        </div>
+        <div class="tempContainer">
+          <span class="description">{{ props.loadedWeather.weather[0].description }} </span>
+          <span class="temp">  
+            {{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp)) }}°
+          </span>
+        </div>
       </div>
-    </div>
-    <div class="resultInfo">
-      <div class="resultItem">
-        Min:
-        {{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp_min)) }}°C
-      </div>
-      <div class="resultItem">
-        Max:
-        {{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp_max)) }}°C
-      </div>
-      <div class="resultItem">
-        Feels Like:
-        {{ Math.ceil(temperatureConvert(props.loadedWeather.main.feels_like)) }}°C
+      <div class="resultInfo">
+        <div class="resultItem">
+          <span>Max:{{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp_max)) }}°C</span>
+        </div>
+        <div class="resultItem">
+          <span>Min:{{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp_min)) }}°C</span>
+        </div>
+        <div class="resultItem">
+          Feels Like:
+          {{ Math.ceil(temperatureConvert(props.loadedWeather.main.feels_like)) }}°C
+        </div>
       </div>
     </div>
   </div>
@@ -67,7 +70,7 @@
     flex-grow: 1;
     color: $textBlack;
     .cityName {
-      font-size:larger;
+      font-size: larger;
       font-weight: 600;
     }
 
@@ -76,9 +79,19 @@
       align-content: center;
       gap: 2rem;
       justify-content: center;
-
+      align-items: center;
+      .tempContainer{
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        font-weight: 700;
+        .description{
+          color: $textGrey;
+          text-transform: capitalize;
+        }
+      }
       .temp {
-        font-size: 100px;
+        font-size: 90px;
         font-weight: 100;
         font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         color: $textBlack
@@ -86,8 +99,7 @@
     }
 
     img {
-      width: 150px;
-      height: 100px;
+      height: 170px;
     }
   }
 
@@ -104,6 +116,8 @@
 
   .resultItem {
     margin-bottom: 10px;
+    display: flex;
+    gap: 1rem;
   }
 }
 .flexCol {
