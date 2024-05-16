@@ -1,5 +1,4 @@
 <script setup>
-import { compileScript } from "vue/compiler-sfc";
 import { fetchData, fetchWeather } from "./src/services/openWeatherAPI";
 
 const tipedCity = ref();
