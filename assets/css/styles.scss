@@ -1,4 +1,6 @@
 @import './src/styles/_colors';
+@import './src/styles/_mediaQueries';
+
 body {
   display: flex;
   flex-direction: column;
@@ -10,4 +12,7 @@ body {
   min-height: 80vh;
   position: relative;
   overflow-x: hidden;
+  @include tablet {
+    min-height: 98vh;
+  };
 }

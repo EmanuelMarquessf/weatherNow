@@ -71,6 +71,8 @@ const loadWeather = async () => {
 
 <style scoped lang="scss">
 @import "./src/styles/_colors";
+@import './src/styles/_mediaQueries';
+
 
 @mixin box-shadow($shadow) {
   box-shadow: $shadow;
