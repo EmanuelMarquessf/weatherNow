@@ -15,10 +15,4 @@ body {
   @include tablet {
     min-height: 99vh;
   };
-  @include mobile {
-    align-items:start;
-    justify-content: right;
-    margin: 2rem 0rem;
-
-  };
 }
