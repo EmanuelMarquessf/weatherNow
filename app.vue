@@ -83,12 +83,14 @@ main {
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  margin: 4rem;
   background-color: $windowColor;
   font-family: 'Roboto', sans-serif;
   border-radius: 15px;
   gap: 1rem;
+  overflow: hidden;
+  @include mobile {
 
+  };
   span {
     font-size: larger;
     text-align: center;
@@ -100,12 +102,14 @@ main {
     justify-content: space-between;
     align-items: end;
     gap: 1rem;
-
+    @include tablet {
+      flex-wrap: wrap;
+    };
     .inputContainer {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      
+      flex-grow: 1;
       label {
         font-size: medium;
         font-weight: 700;
@@ -119,6 +123,9 @@ main {
         border: 1px solid $detailColor3;
         border-radius: 5px;
         background-color: $backgroundColor;
+        @include tablet {
+          font-size: medium
+        };
         option{
           font-size:small;
         }
@@ -127,11 +134,16 @@ main {
 
     #cityInput {
       width: 250px;
-
+      @include tablet {
+        flex-grow: 1;
+      };
     }
 
     #CountryInput {
       width: 150px;
+      @include tablet {
+        width: 100px;
+      };
     }
 
     button {
