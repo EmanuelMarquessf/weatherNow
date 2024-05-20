@@ -1,8 +1,8 @@
 <script setup>
 import { fetchData, fetchWeather } from "./src/services/openWeatherAPI";
 
-const tipedCity = ref();
-const tipedCountry = ref("");
+const tipedCity = ref("Campinas");
+const tipedCountry = ref("BRA");
 const loadedCity = ref();
 const loadedWeather = ref();
 
@@ -22,7 +22,7 @@ const loadWeather = async () => {
   );
   loadedWeather.value = data;
 };
-
+loadCountry()
 
 </script>
 

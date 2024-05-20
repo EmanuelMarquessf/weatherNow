@@ -31,10 +31,10 @@
       </div>
       <div class="resultInfo">
         <div class="resultItem">
-          <span>Max:{{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp_max)) }}°C</span>
+          <span>Max: {{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp_max)) }}°C</span>
         </div>
         <div class="resultItem">
-          <span>Min:{{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp_min)) }}°C</span>
+          <span>Min: u{{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp_min)) }}°C</span>
         </div>
         <div class="resultItem">
           Feels Like:
@@ -62,7 +62,7 @@
   gap: 1rem;
   padding: 1rem 4rem;
   overflow: hidden;
-
+  transition: opacity 1s ease-in-out;
   @include tablet {
     padding: 1rem;
   }
@@ -78,13 +78,14 @@
       justify-content: space-between;
     };
     .cityName {
-      font-size: larger;
+      font-size:x-large;
       font-weight: 600;
       @include mobile {
         display: flex;
         flex-direction: column;
       };
       .cityState{
+        font-size:small;
         color: $textGrey;
       }
     }
