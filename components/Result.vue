@@ -12,8 +12,8 @@
   <div class="resultContainer flexCol" v-if="props.loadedWeather">
     <div class="topContainer resultItem">
       <span class="cityName">
-        {{ props.loadedCity[0].name }} <span v-if="props.loadedCity[0].state">
-        - {{ props.loadedCity[0].state }}</span>
+        {{ props.loadedCity[0].name }} <span class="cityState" v-if="props.loadedCity[0].state">
+        {{ props.loadedCity[0].state }}</span>
       </span>
       <div class="tempInfo">
         <div class="flexCol">
@@ -47,6 +47,8 @@
 
 <style scoped lang="scss">
 @import "../src/styles/_colors.scss";
+@import './src/styles/_mediaQueries';
+
 
 @mixin box-shadow($shadow) {
   box-shadow: $shadow;
@@ -58,9 +60,12 @@
   border: 1px solid $detailColor3;
   border-radius: 5px;
   gap: 1rem;
-  height: 250px;
   padding: 1rem 4rem;
+  overflow: hidden;
 
+  @include tablet {
+    padding: 1rem;
+  }
   .topContainer {
     display: flex;
     flex-direction: column;
@@ -69,9 +74,19 @@
     text-align: center;
     flex-grow: 1;
     color: $textBlack;
+    @include tablet {
+      justify-content: space-between;
+    };
     .cityName {
       font-size: larger;
       font-weight: 600;
+      @include mobile {
+        display: flex;
+        flex-direction: column;
+      };
+      .cityState{
+        color: $textGrey;
+      }
     }
 
     .tempInfo {
@@ -80,6 +95,10 @@
       gap: 2rem;
       justify-content: center;
       align-items: center;
+      @include mobile {
+        gap: 0rem;
+        flex-direction: column;
+      }
       .tempContainer{
         display: flex;
         flex-direction: column;
@@ -100,6 +119,9 @@
 
     img {
       height: 170px;
+      @include tablet {
+        height: 130px
+      }
     }
   }
 
@@ -112,10 +134,10 @@
     font-weight: 400;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: $textGrey;
+
   }
 
   .resultItem {
-    margin-bottom: 10px;
     display: flex;
     gap: 1rem;
   }

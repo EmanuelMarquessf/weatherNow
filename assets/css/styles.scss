@@ -11,8 +11,14 @@ body {
   background-size: cover;
   min-height: 80vh;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
   @include tablet {
-    min-height: 98vh;
+    min-height: 99vh;
+  };
+  @include mobile {
+    align-items:start;
+    justify-content: right;
+    margin: 2rem 0rem;
+
   };
 }
