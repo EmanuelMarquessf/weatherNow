@@ -34,7 +34,7 @@
           <span>Max: {{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp_max)) }}°C</span>
         </div>
         <div class="resultItem">
-          <span>Min: u{{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp_min)) }}°C</span>
+          <span>Min: {{ Math.ceil(temperatureConvert(props.loadedWeather.main.temp_min)) }}°C</span>
         </div>
         <div class="resultItem">
           Feels Like:

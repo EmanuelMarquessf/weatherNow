@@ -22,8 +22,8 @@ const loadWeather = async () => {
   );
   loadedWeather.value = data;
 };
-loadCountry()
-
+  loadCountry()
+  
 </script>
 
 <template>
